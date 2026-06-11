@@ -80,7 +80,7 @@ export default function HenteStedPage() {
       zoom: 12,
     });
     mapRef.current = map;
-  }, [mapReady]);
+  }, [mapReady, addressSelected]);
 
   useEffect(() => {
     if (!mapRef.current || !coordinates) return;
