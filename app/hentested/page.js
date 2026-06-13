@@ -13,6 +13,7 @@ export default function HenteStedPage() {
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [coordinates, setCoordinates] = useState(null);
   const [pickupPoints, setPickupPoints] = useState([]);
+  const [selectedPickupPoint, setSelectedPickupPoint] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState(null);
@@ -216,7 +217,7 @@ export default function HenteStedPage() {
       <main className="flex w-full max-w-5xl flex-col items-center py-24 px-8">
         <div className="w-full">
           <h1 className="text-4xl font-semibold tracking-tight text-black dark:text-zinc-50 mb-2">Finn hentested</h1>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-10">Søk etter hentesteder nær dig ved å skrive en adresse.</p>
+          <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-10">Søk etter hentesteder nær deg ved å skrive en adresse.</p>
 
           <div className="space-y-5">
             <div className="space-y-2">
@@ -377,10 +378,31 @@ export default function HenteStedPage() {
                                 Åpne i kart
                               </a>
                             )}
+                            <button
+                              type="button"
+                              onClick={() => setSelectedPickupPoint(pp)}
+                              className={`mt-2 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                                selectedPickupPoint?.id === pp.id
+                                  ? "bg-black text-white dark:bg-white dark:text-black"
+                                  : "bg-zinc-100 text-black hover:bg-zinc-200 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
+                              }`}
+                            >
+                              {selectedPickupPoint?.id === pp.id ? "Valgt" : "Velg"}
+                            </button>
                           </div>
                         </div>
                       </div>
                     ))}
+
+                    {selectedPickupPoint && (
+                      <div className="mt-6 w-full rounded-2xl border border-black/10 bg-white p-5 dark:border-white/10 dark:bg-black">
+                        <h3 className="text-lg font-semibold text-black dark:text-zinc-50 mb-2">Valgt hentested</h3>
+                        <p className="text-sm font-medium text-black dark:text-zinc-50">{selectedPickupPoint.name || selectedPickupPoint.id}</p>
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                          {selectedPickupPoint.address || selectedPickupPoint.street || selectedPickupPoint.name || selectedPickupPoint.id}, {selectedPickupPoint.postalCode || ""} {selectedPickupPoint.city || ""}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -401,4 +423,3 @@ export default function HenteStedPage() {
     </div>
   );
 }
-
